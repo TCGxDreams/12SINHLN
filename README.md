@@ -1,6 +1,6 @@
 # 12SINHLN
 
-Photo Storm - Trang kỷ niệm lớp 12 Sinh Liên Năng
+Photo Storm - Trang kỷ niệm lớp 12 Sinh Liên Ngành 23-26
 
 ## Cách sử dụng
 Truy cập: https://tcgxdreams.github.io/12SINHLN/photo-storm.html
