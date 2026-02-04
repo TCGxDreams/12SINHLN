@@ -361,51 +361,62 @@ class PhotoStorm {
             return;
         }
 
-        // Load images with delay to avoid rate limiting (429)
-        const loadImageWithDelay = (index) => {
-            if (index >= photoList.length) return;
+        // Batch parallel loading - load 5 images at a time
+        const BATCH_SIZE = 5;
+        const BATCH_DELAY = 300; // ms between batches
 
-            const photo = photoList[index];
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
+        const loadBatch = (startIndex) => {
+            if (startIndex >= photoList.length) return;
 
-            img.onload = () => {
-                this.loadedCount++;
-                this.updateLoadingProgress();
+            const endIndex = Math.min(startIndex + BATCH_SIZE, photoList.length);
+            let batchCompleted = 0;
 
-                const data = {
-                    src: img.src,
-                    type: photo.type,
-                    mshs: photo.mshs,
-                    filename: photo.filename,
-                    width: img.naturalWidth,
-                    height: img.naturalHeight
+            for (let i = startIndex; i < endIndex; i++) {
+                const photo = photoList[i];
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+
+                const onComplete = (success) => {
+                    this.loadedCount++;
+                    this.updateLoadingProgress();
+                    batchCompleted++;
+
+                    if (success) {
+                        const data = {
+                            src: img.src,
+                            type: photo.type,
+                            mshs: photo.mshs,
+                            filename: photo.filename,
+                            width: img.naturalWidth,
+                            height: img.naturalHeight
+                        };
+                        this.allData.push(data);
+
+                        if (photo.mshs && this.students[photo.mshs]) {
+                            this.students[photo.mshs].photos.push(data);
+                        }
+
+                        this.createCard(data);
+                    }
+
+                    // Start next batch when current batch is done
+                    if (batchCompleted >= (endIndex - startIndex)) {
+                        setTimeout(() => loadBatch(endIndex), BATCH_DELAY);
+                    }
                 };
-                this.allData.push(data);
 
-                if (photo.mshs && this.students[photo.mshs]) {
-                    this.students[photo.mshs].photos.push(data);
-                }
+                img.onload = () => onComplete(true);
+                img.onerror = () => {
+                    console.warn(`Failed to load: ${photo.path}`);
+                    onComplete(false);
+                };
 
-                this.createCard(data);
-
-                // Load next image after delay
-                setTimeout(() => loadImageWithDelay(index + 1), 150);
-            };
-
-            img.onerror = () => {
-                this.loadedCount++;
-                this.updateLoadingProgress();
-                console.warn(`Failed to load: ${photo.path}`);
-                // Continue loading next even if this one fails
-                setTimeout(() => loadImageWithDelay(index + 1), 150);
-            };
-
-            img.src = photo.path;
+                img.src = photo.path;
+            }
         };
 
-        // Start loading from first image
-        loadImageWithDelay(0);
+        // Start loading first batch
+        loadBatch(0);
     }
 
     updateLoadingProgress() {
