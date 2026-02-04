@@ -1,0 +1,24 @@
+# Ảnh local (load từ Google Drive)
+Pic/*.jpg
+Pic/*.JPG
+Pic/*.jpeg
+Pic/*.png
+Pic/*.gif
+Pic/*.webp
+Pic/*.heic
+Pic/232408/
+
+# Backup files
+Pic/photos_backup.json
+
+# Python script (internal tool)
+update_photos.py
+*.pyc
+__pycache__/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/

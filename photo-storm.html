@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Photo Storm - Kỷ niệm lớp 12SinhLN">
+    <meta name="theme-color" content="#000000">
+    <title>Photo Storm | 12SinhLN</title>
+    <link rel="stylesheet" href="css/storm.css">
+</head>
+
+<body>
+    <!-- Loading -->
+    <div class="loading-overlay">
+        <div class="loading-logo">
+            <div class="loading-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                </svg>
+            </div>
+            <span class="loading-text">12SinhLN</span>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Ambient -->
+    <div class="ambient-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Photos -->
+    <div id="stormContainer"></div>
+    <div class="vignette"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                </svg>
+            </div>
+            <div class="logo-type">
+                <span class="logo-name">Photo Storm</span>
+                <span class="logo-class">12SinhLN</span>
+            </div>
+        </div>
+        <nav class="nav">
+            <!-- Pause -->
+            <button class="btn btn-ghost btn-icon" id="pauseBtn" title="Tạm dừng (Space)">
+                <svg id="pauseIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="6" y="4" width="4" height="16" />
+                    <rect x="14" y="4" width="4" height="16" />
+                </svg>
+            </button>
+            <!-- Gallery (Pinterest) -->
+            <button class="btn btn-ghost" id="gridBtn" title="Chế độ Gallery (G)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="9" rx="1" />
+                    <rect x="14" y="3" width="7" height="5" rx="1" />
+                    <rect x="14" y="12" width="7" height="9" rx="1" />
+                    <rect x="3" y="16" width="7" height="5" rx="1" />
+                </svg>
+                <span>Gallery</span>
+            </button>
+            <!-- Fullscreen -->
+            <button class="btn btn-ghost btn-icon" id="fullscreenBtn" title="Toàn màn hình (F)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                </svg>
+            </button>
+            <!-- Random -->
+            <button class="btn btn-ghost btn-icon" id="randomBtn" title="Ảnh ngẫu nhiên (R)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                </svg>
+            </button>
+            <!-- Slideshow -->
+            <button class="btn btn-ghost" id="slideshowBtn" title="Trình chiếu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+                    <line x1="7" y1="2" x2="7" y2="22" />
+                    <line x1="17" y1="2" x2="17" y2="22" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <line x1="2" y1="7" x2="7" y2="7" />
+                    <line x1="2" y1="17" x2="7" y2="17" />
+                    <line x1="17" y1="17" x2="22" y2="17" />
+                    <line x1="17" y1="7" x2="22" y2="7" />
+                </svg>
+                <span>Trình Chiếu</span>
+            </button>
+            <!-- Shuffle -->
+            <button class="btn btn-ghost" id="shuffleBtn" title="Xáo trộn (S)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="16 3 21 3 21 8" />
+                    <line x1="4" y1="20" x2="21" y2="3" />
+                    <polyline points="21 16 21 21 16 21" />
+                    <line x1="15" y1="15" x2="21" y2="21" />
+                </svg>
+                <span>Xáo Trộn</span>
+            </button>
+            <!-- Upload -->
+            <button class="btn btn-ghost" id="uploadBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                <span>Tải Ảnh</span>
+            </button>
+            <!-- Video -->
+            <button class="btn btn-primary" id="videoBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                <span>Tạo Video</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-label">Bộ lọc</div>
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Tìm MSHS...">
+        </div>
+        <button class="filter-btn active" data-filter="all">
+            <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                Tất Cả
+            </span>
+            <span class="filter-count" id="countAll">0</span>
+        </button>
+        <button class="filter-btn" data-filter="collective">
+            <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                Tập Thể
+            </span>
+            <span class="filter-count" id="countCollective">0</span>
+        </button>
+        <button class="filter-btn" data-filter="personal">
+            <span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+                Cá Nhân
+            </span>
+            <span class="filter-count" id="countPersonal">0</span>
+        </button>
+    </aside>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-number" id="countTotal">0</div>
+            <div class="stat-label">Ảnh Kỷ Niệm</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">48</div>
+            <div class="stat-label">Thành Viên</div>
+        </div>
+    </div>
+
+    <!-- Keyboard Hints -->
+    <div class="keyboard-hint">
+        <div>Tạm dừng<kbd>Space</kbd></div>
+        <div>Gallery<kbd>G</kbd></div>
+        <div>Toàn màn hình<kbd>F</kbd></div>
+        <div>Ảnh ngẫu nhiên<kbd>R</kbd></div>
+        <div>Xáo trộn<kbd>S</kbd></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <span class="speed-label">Tốc độ</span>
+        <input type="range" class="speed-track" id="speedSlider" min="0.2" max="3" step="0.1" value="1">
+        <span class="speed-value" id="speedValue">1.0x</span>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+        <span></span>
+    </div>
+
+    <!-- Spotlight Modal -->
+    <div class="modal" id="spotlightModal">
+        <div class="spotlight-view">
+            <span class="spotlight-counter" id="spotlightCounter">1 / 40</span>
+            <button class="close-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+            <button class="spotlight-nav spotlight-prev" id="spotlightPrev">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </button>
+            <img id="spotlightImg" src="" alt="">
+            <button class="spotlight-nav spotlight-next" id="spotlightNext">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            </button>
+            <div class="spotlight-meta">
+                <div class="spotlight-title" id="spotlightTitle"></div>
+                <div class="spotlight-subtitle" id="spotlightSub"></div>
+                <div class="spotlight-actions">
+                    <button class="btn-icon" id="downloadPhotoBtn" title="Tải ảnh">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal" id="videoModal">
+        <div class="video-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Tạo Video Kỷ Niệm</h2>
+                <button class="close-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="video-canvas-wrap">
+                <canvas id="videoCanvas"></canvas>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="theme-grid">
+                <button class="theme-option active" data-theme="cinematic">Cinematic</button>
+                <button class="theme-option" data-theme="memories">Kỷ Niệm</button>
+                <button class="theme-option" data-theme="energetic">Năng Động</button>
+                <button class="theme-option" data-theme="romantic">Lãng Mạn</button>
+            </div>
+            <div class="action-row">
+                <button class="btn btn-ghost" id="previewBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    <span>Xem Trước</span>
+                </button>
+                <button class="btn btn-primary" id="downloadBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    <span>Tải Video</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="upload-panel">
+            <h2 class="upload-title">Thêm Ảnh Mới</h2>
+            <div class="upload-tabs">
+                <button class="upload-tab active" data-type="collective">Tập Thể</button>
+                <button class="upload-tab" data-type="personal">Cá Nhân</button>
+            </div>
+            <input type="text" class="mshs-input" id="mshsInput" placeholder="Nhập MSHS (232401 - 232448)">
+            <div class="drop-area" id="dropArea">
+                <div class="drop-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                </div>
+                <p class="drop-text">
+                    Kéo thả ảnh vào đây<br>
+                    hoặc <strong>click để chọn</strong>
+                </p>
+            </div>
+            <div class="action-row">
+                <button class="btn btn-ghost close-btn">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="settings-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Cài Đặt</h2>
+                <button class="close-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="settings-group">
+                <div class="settings-title">Hiệu ứng</div>
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-label">Xoay ảnh</div>
+                        <div class="setting-desc">Ảnh xoay nhẹ khi bay</div>
+                    </div>
+                    <div class="toggle on" data-setting="photoRotation"></div>
+                </div>
+            </div>
+            <div class="settings-group">
+                <div class="settings-title">Trình chiếu</div>
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-label">Tự động chuyển</div>
+                        <div class="setting-desc">Chuyển ảnh sau 5 giây</div>
+                    </div>
+                    <div class="toggle" data-setting="autoSlide"></div>
+                </div>
+            </div>
+            <div class="settings-group">
+                <div class="settings-title">Gợi ý</div>
+                <div class="setting-row">
+                    <div>
+                        <div class="setting-label">Hiển thị phím tắt</div>
+                        <div class="setting-desc">Hiện gợi ý ở góc màn hình</div>
+                    </div>
+                    <div class="toggle on" data-setting="showHints"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" multiple accept="image/*">
+    <script src="js/storm.js"></script>
+</body>
+
+</html>
